@@ -5,3 +5,210 @@ CREATE TABLE DEPT_CSALAS
   CONSTRAINT DEPT_PK_CAROLINA PRIMARY KEY (DEPNO) USING INDEX  ENABLE
    ) ; 
    
+insert all 
+into dept_csalas (depno, depname, depcity,zip) values (10,'HR','New York',10004)
+into dept_csalas (depno, depname, depcity,zip) values (20,'Research','Chicago',60007)
+into dept_csalas (depno, depname, depcity,zip) values (30, 'Ordering','Dallas',75001)
+into dept_csalas (depno, depname, depcity,zip) values (40,'Manufacturing', 'Pasadena',91107)
+into dept_csalas (depno, depname, depcity,zip) values (50,'Billing','Pasadena', 91107)
+into dept_csalas (depno, depname, depcity,zip) values (60, 'Sales','Chicago',60007)
+into dept_csalas (depno, depname, depcity,zip) values (70, 'Delivery','Chicago', 90032)
+select * from dual;
+
+--Create  Sequence
+CREATE SEQUENCE  DEPT_SEQ_CSALAS  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 165 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+ 
+--Trigger on dep table
+create or replace trigger DEPT_CSALAS_T1
+BEFORE
+insert or update or delete on DEPT_CSALAS
+for each row
+begin
+select DEPT_SEQ_CSALAS.nextval into :new.depno  from dual;
+end;
+/ 
+ALTER TRIGGER  DEPT_CSALAS_T1 ENABLE
+/
+
+---Emp table below
+  CREATE TABLE EMP_CSALAS
+   (EMPNO NUMBER(5,0), 
+	EMPNAME VARCHAR2(20), 
+	JOB VARCHAR2(20), 
+	SALARY NUMBER, 
+	DEPNO NUMBER, 
+	GENDER CHAR(1), 
+	MARITAL_STATUS CHAR(1), 
+	CONSTRAINT EMP_PK_CAROLINA PRIMARY KEY (EMPNO) USING INDEX  ENABLE
+   ) ;
+
+  ALTER TABLE EMP_CSALAS ADD CONSTRAINT EMP_FK_DEPNO_CAROLINA FOREIGN KEY (DEPNO)
+	  REFERENCES DEPT_CSALAS (DEPNO) ENABLE;
+
+  CREATE OR REPLACE EDITIONABLE TRIGGER EMP_CSALAS_T1 
+	BEFORE INSERT ON EMP_CSALAS FOR EACH ROW
+	begin
+    select EMP_SEQ_CSALAS.nextval into :new.empno from dual;
+	end;
+/
+ALTER TRIGGER EMP_CSALAS_T1 ENABLE;
+insert all 
+into emp_csalas (empno, empname, job, depno, salary) values (101,'joe','Staff',10,30000)
+into emp_csalas (empno, empname, job, depno, salary) values (102,'Jack','Staff',10,35000)
+into emp_csalas (empno, empname, job, depno, salary) values (103,'Alen','Accountant',10,80000)
+into emp_csalas (empno, empname, job, depno, salary) values (104,'JosE','Staff',20,40000)
+into emp_csalas (empno, empname, job, depno, salary) values (105,'SarA','Staff',20,30000)
+into emp_csalas (empno, empname, job, depno, salary) values (106,'Marty','Developer',20,85000)
+into emp_csalas (empno, empname, job, depno, salary) values (107,'Sam','Staff',30,20000)
+into emp_csalas (empno, empname, job, depno, salary) values (108,'Jay','Staff',30,20000)
+into emp_csalas (empno, empname, job, depno, salary) values (109,'Robert','Manager',30,120000)
+into emp_csalas (empno, empname, job, depno, salary) values (110,'Ann','Staff',40,20000)
+into emp_csalas (empno, empname, job, depno, salary) values (111,'David','Staff',40,29000)
+into emp_csalas (empno, empname, job, depno, salary) values (112,'Susan','Staff',40,31000)
+into emp_csalas (empno, empname, job, depno, salary) values (113,'Sarang','Staff',50,35000)
+into emp_csalas (empno, empname, job, depno, salary) values (114,'Jill','Staff',50,23000)
+into emp_csalas (empno, empname, job, depno, salary) values (115,'Don','Biller',50,70000)
+into emp_csalas (empno, empname, job, depno, salary) values(116, 'Sandy','Staff',10,32000)
+into emp_csalas (empno, empname, job, depno, salary) values(117, 'Tim','Sales',60,55000)
+into emp_csalas (empno, empname, job, depno, salary) values(118, 'Shipa','Biller',50,52000)
+into emp_csalas (empno, empname, job, depno, salary) values(119, 'Sherri','Biller',50,55000)
+into emp_csalas (empno, empname, job, depno, salary) values(120, 'Shane','Staff',50,45000)
+into emp_csalas (empno, empname, job, depno, salary) values(121, 'Sevak', 'Staff','',45500)
+select * from dual;
+
+--Professor fixed my sequence 
+CREATE SEQUENCE  EMP_SEQ_CSALAS  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 162 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--alter table 
+alter table emp_csalas add  gender char(1);
+/*changing in setting meaning right pabbel in APEX
+Radio somwthign and turn off displaying extra values and null values*/
+alter table emp_csalas add marital_status char(1);
+--list of values after putting the type of checkgroup 
+
+--customer table creation 
+CREATE TABLE CUSTOMER_csalas 
+(CUST_ID NUMBER(10), 
+CUST_NAME VARCHAR2(20), 
+CUST_ADDR VARCHAR2(40), 
+CUST_PHONE NUMBER(10), 
+CUST_EMAIL VARCHAR2(20), 
+CONSTRAINT CUSTOMER_PK PRIMARY KEY (CUST_ID)
+USING INDEX  ENABLE
+); 	
+insert all 
+into cust_csalas (CUST_ID, CUST_NAME, CUST_ADDR, CUST_PHONE, CUST_EMAIL) values (9001,'Lilly Nunez','4578 Mapple St',8183562956,Lilly2@gmail.com)
+into cust_csalas (CUST_ID, CUST_NAME, CUST_ADDR, CUST_PHONE, CUST_EMAIL) values (9002,'Anika Middleton','5893 Nettwen Ave',2130284920,Aleton@gmail.com)
+into cust_csalas (CUST_ID, CUST_NAME, CUST_ADDR, CUST_PHONE, CUST_EMAIL) values (9003,'Kaliyah John','9832 Valley Beach lane',8183397657, KaliyahJ@gmail.com)
+into cust_csalas (CUST_ID, CUST_NAME, CUST_ADDR, CUST_PHONE, CUST_EMAIL) values (9004,'Skye  Cain','7992 Swit St',8180938274 , skyeC21@gmail.com)
+into cust_csalas (CUST_ID, CUST_NAME, CUST_ADDR, CUST_PHONE, CUST_EMAIL) values (9005,'Jordyn Beck','9045 Littleflo Dr',3234932748 , beckj56@gmail.com)
+select * from dual;
+--Create  Sequence, 
+ CREATE SEQUENCE  CUST_SEQ_CSALAS  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--Trigger on Customer table.
+CREATE TRIGGER  CUST_CSALAS_T1
+BEFORE
+insert on CUST_CSALAS
+for each row
+begin
+select CUST_SEQ_CSALAS.nextval into :new.cust_id from dual;
+end;
+/
+ALTER TRIGGER  CUST_CSALAS_T1 ENABLE
+/
+Alter table CUSTOMER_csalas
+add constraint dept_pk_csalas
+Primary key (depno);
+/*composite index on cust_name and cust_phone in CUSTOMER table
+CUST_CSALAS_PK*/
+CREATE UNIQUE INDEX CUST_CSALAS_PK ON CUST_CSALAS ("CUST_ID") ;
+CUST_CSALAS_IDX1
+CREATE INDEX CUST_CSALAS_IDX1 ON "CUST_CSALAS" ("CUST_NAME", "CUST_PHONE") ;
+CUST_CSALAS_IDX2
+CREATE INDEX "CUST_CSALAS_IDX2" ON "CUST_CSALAS" ("CUST_ADDR") ;
+
+
+CREATE TABLE  "CITY_STATE_CSALAS" (
+	"ZIP" NUMBER(10) NOT NULL, 
+	"CITY" VARCHAR2(20), 
+	"STATE" VARCHAR2(2), 
+	CONSTRAINT "CITY_STATE_PK_CSALAS" PRIMARY KEY ("ZIP")
+	USING INDEX  ENABLE
+   )
+
+insert all
+into CITY_STATE_CSALAS values(10004, 'New York', 'NY')
+into CITY_STATE_CSALAS values(91016,'Monrovia','CA')
+into CITY_STATE_CSALAS values(91107,'Pasadena','CA')
+into CITY_STATE_CSALAS values(60007, 'Chicago', 'IL')
+into CITY_STATE_CSALAS values(90032,'Los Angeles','CA')
+into CITY_STATE_CSALAS values(75001, 'Dallas', 'TX')
+select * from dual;
+
+--Indexes: CITY_STATE_CSALAS_PK 
+CREATE UNIQUE INDEX "CITY_STATE_CSALAS_PK" ON "CITY_STATE_CSALAS" ("ZIP") ;
+
+create table to_do_job_csalas(
+job_id number,
+job_desc varchar2(100),
+job_date date);
+
+insert all
+into to_do_job_csalas values(1,'Maintenance', '06072023')
+into to_do_job_csalas values(2,'Testing', '05122023')
+into to_do_job_csalas values(3,'Database Tuning', '05102023')
+select * from dual;
+
+
+--page 2 My Calendar
+Select sysdate from dual;
+--page 3 Dep list
+/*this joins 5 colums into a single result in this instance department in zip*/
+SELECT dept_csalas.depno, dept_csalas.depname, dept_csalas.zip, city_state_csalas.city, city_state_csalas.state
+FROM dept_csalas
+LEFT JOIN city_state_csalas ON dept_csalas.zip=city_state_csalas.zip
+--page 4 emp chart 
+Select depno, count(empno) 
+from emp_csalas 
+group by depno;
+--page 5 emp report 
+no code
+--page 6 employee form
+SELECT * FROM emp_csalas
+--page 7
+no code
+--page 8 Department in Zip
+SELECT zip, COUNT(*)
+FROM dept_csalas
+GROUP BY zip;
+--page 9 Total Number of Employee
+select depno, count(*) from emp_csalas
+group by depno;
+--page 10 number of department in each city 
+SELECT city, COUNT(DISTINCT depno)
+FROM dept_csalas, CITY_STATE_CSALAS
+GROUP BY city;
+--page 11 Emp in each dep
+SELECT depname, empname
+FROM emp_csalas
+JOIN dept_csalas
+ON dept_csalas.depno = emp_csalas.depno
+group by depname,empname
+--page 12 Department Report
+select * from dept_csalas
+--page 13 Department form
+select * from dept_csalas
+--page 14 Department form 
+select * from dept_csalas
+
+--App profile link 
+#APP_FILES#cute-happy-funny-nacho-salsa-sauce-bowl-vector-cartoon-character-illustration-icon-design-isolated-white-background-185813555.jpg
+
+
+
+
+
+
+
+
+
+   
